@@ -257,3 +257,70 @@ A screenshot from the TensorBoard framework:
 	**Seed text: small **
 	**small**  lost with sun find when casbah you time huh to please for you see make the life dont you me to she the waitin honey weed all fill fired wish on alone thats like im the to and yeah long sure the broadway the need somebody always achy dont well i as seen my that boy your that, required 58 words
 
+**Model with advanced melody features - sequence length 5**
+A screenshot from the TensorBoard framework: 
+——— pic 15 ———-
+
+1. **Lyrics for the bangles - eternal flame**
+
+	**Seed text: close your eyes give me **
+	**close your eyes give me** rest dreams want that ill what knows im yeah good trust gonna be those find your anyone temper boys dead oh forever somethin mine have i this would playin total yeah planetary that fast from you two like moon believe you will truth, required 43 words
+
+	**Seed text: hand darling do you feel **
+	**hand darling do you feel** of for isnt me more of rising midnight got i for cant whiskey i as rock need swear how watched mind thats got too when day love me me or every yeah i dreams forgotten cryin bag mony flesh how no own be, required 43 words
+	
+	**Seed text: My heart beating understand the** 
+	**My heart beating understand the** air comin lying through began girl never another thorns bought slim i or go some coming of maybe to it fly so fuck i and thing the ive safe here nothing you long eyes day no but danced you you abandoned me to, required 43 words
+
+
+2. **Lyrics for billy joel - honesty**
+	**Seed text: If you search for tenderness **
+	**If you search for tenderness**  my radio finger you now i that it ooh we me gonna the i gin my know maybe hair won a better bleed the live fantasy dont your too say a have baby think cant is do warm your tell you hard so the be of ow do love know believin really ever free when up said you me so of us can heartache more up what hot up before the got that a not are tell their di will oh down hands, required 83 words
+
+	**Seed text:  it isnt hard to find  **
+	** it isnt hard to find **   tired whats me pryor wanna i goodbye sueno what them all it last you since not i to shes joy be america i law like i be they lover catch and right said we stayin be you the nothing life fingers front anyone the myself without try dream cat da but he my thats you and so goin knew so ever the a waters love no from is was of the me right the what its up i wit have watching lied dont, required 83 words
+
+	**Seed text: Can have the love need **
+	**Can have the love need**  was over now im high story shoot give can wire wont the i mean the you no at got are only true want just handed that train youre know the yesterday hot women never alone to love my the believing it and my can need and clover tricks and if true needs will gun for let let much my then it dont note crowd wind you and that save nowhere good whoa alive the i breathe the it the you weve its a, required 83 words
+
+3. Lyrics for cardigans - lovefool
+	**Seed text: Dear i fear were facing **
+	**Dear i fear were facing**  and every distant cause quite gonna ive them fast dreams wintry song dre my here world summer get music when only follow along every you me cause your the making dub im if such the da to love trying the you up one taking last hes and boss baby would when the see and you been look i from we with shit one taught then, required 65 words
+	
+	**Seed text: A problem you love me**
+	**A problem you love me**  down wanna so to did man fool to wrote girls bought wake nothing boys at wait me though got crazy they goin the the drives go quite hiding keep again it i wasnt passed morning boy want oh to now night forgive sick up i fun has you got than you cares pushing wrong i the know you we you silk guy the rainy my, required 65 words
+	
+	**Seed text: No longer know and maybe **
+	**No longer know and maybe**  my hes alien to you just you around needed me to dont trouper to bleed know have is dying seemed long me leapin i by a turned probably beautiful all of friend love want the to you i the want as chance and want little i got but plays the if up theyre for my is see fake loves be life hold money got like, required 65 words
+
+4. Lyrics for aqua - barbie girl
+
+	**Seed text: hiya barbie hi ken do **
+	**hiya barbie hi ken do**  nobody youre of they dying and come little get my you face find you is rain look need and rock see them till in body be cute to jive the your feel by like i your love friend drag who you heard oh dont take your pieces a up love at ive give take baby really what ring else is but look a off with back and believe do have up yeah stop all gotta the im start the ever you, required 81 words
+
+	**Seed text: a ride sure jump in **
+	**a ride sure jump in **  fly for they for you the just my feel me my better other all making your dont dream the stone the come ba the hands covered come to i i kiss baby cares say i now friend ask the me one to throw asked for this could love heart my is say around he that in to knows i beat your love other another hard there red to turn to sometimes know hey stay am it street of at hey in, required 81 words
+
+	**Seed text: you want to go for  **
+	**you want to go for **  have killing you not the dawn than hard id you the ever unopened dimension over old in fall love i come its a want desire this got should feel to mess say goin when alive when it my bar thats the when in i me the us a would or remember ill love limit do time wanna there rhymes sounding rendezvous quiet by one stay it on the a you try and town nothing moonlit like stormy they dont i middle, required 81 words
+
+5. Lyrics for blink 182 - all the small things 
+	**Seed text: All the small things true **
+	**All the small things true**   his love a such away its only you to no bread ill i sing deep sun think walk it beat fuck best do back look bone i lot feel know they you it gotta am will shaking was all running that around stay bitch wait with, required 46 words
+	
+	**Seed text: Care truth brings ill take **
+	**Care truth brings ill take**   the you feeling push dont say goodbye an that hear im do how sweet and you his you the it new the the traveled want sayin it this do a its wannabe song with if that take other than come the horse if when you and, required 46 words
+	
+	**Seed text: One lift your ride best  **
+	**One lift your ride best **  breathe make beat and its reason black of you fine a sleep mine a i scene too ever time and why your room beat you sings you i is and in do matter what on one no oh anybody from tu touch think that than they, required 46 words
+
+
+## Analysis of how the Seed and Melody Effects the Generated Lyrics
+
+We see that the lyrics are mostly unintelligible, and tend to have words that are very common in the data set (the word “love” appears over 40 times in the generated lyrics and it is indeed a common lyric in popular songs). It doesn’t appear that more advanced melody features improved the subjective quality of the lyrics produced, like how our quantitative methods deemed that it doesn’t improve much. We did notice however a peculiar feature, where once a word appeared for the first time, it tended to appear many times after (or similar variations of it, e.g. if “i” appeared then “i”, “me” or “my” tend to appear after it a lot”). This is to be expected from a model that maintains a cell state and predicts words based on their embedding.
+
+Also it’s apparent that the seed chosen wildly changes the words produced. We think this is because the melody plays a much smaller part in predicting the lyrics compared to the seed, so even with the same melody the dominating factor in producing the lyrics is the seed - see our evaluation table above; the results are slightly better with the melody attached, but not by much, meaning that the first word assists the model much more compared to, say, a baseline of a random word each time. 
+
+Personally, we don’t see much of an improvement in using 5 words as a seed versus just the first word. Occasionally it leads to better combinations but it’s a hit-or-miss usually. We think this is because of 2 main reasons:
+Many songs contain slang that isn’t in the word embedding matrix so we cannot learn from them or predict them
+Many song lyrics aren’t completely coherent and the words are fairly independent of each other (for a good example see the original lyrics of the last song in the test set, “All the Small Things” by Blink 182).
