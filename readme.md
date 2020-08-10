@@ -59,24 +59,27 @@ Figures 2-4 demonstrate the types of information that can be gathered.
 **Input Files:**
 A screenshot of the input folder
 
------- pic 1 -------
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/1.PNG?raw=true)
 
 You need to put files in two folders: input_files and midi_files, the other folders are generated automatically.
 Inside input_files put the glove 6B 300d file and the training and testing set:
 
------- pic 2 -------
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/2.PNG?raw=true)
 
 An example of the glove file:
 
------- pic 3 -------
+
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/3.PNG?raw=true)
 
 An example for lyrics_train_set.csv (columns: artist, song name and lyrics):
 
------- pic 4 -------
+
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/4.PNG?raw=true)
 
 Inside the folder midi_files put the midi files:
 
------- pic 5 -------
+
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/5.PNG?raw=true)
 
 ## Code Design
 
@@ -95,7 +98,8 @@ We devised two different methods to extract features from the melodies. One of t
 
 **Method #1**: Each midi file contains a list of all instruments used in the file. For each instrument, an Instrument object contains a list of all time periods this instrument was used, the pitch used (the note)  and velocity (how strong the note was played) as you can see in figure 1.
 
------- pic 6 -------
+
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/6.PNG?raw=true)
 
 Figure 1: The data available for each instrument of the midi file
 
@@ -107,20 +111,22 @@ In addition, we can easily use the function get_beats()  of pretty midi to find 
 
 **Method #2**: With the first method we have the average pitch used for each word. Now, we want a more precise measurement of this. Each pretty midi object has a function getPianoRoll(fs) which returns a matrix that represents the notes used in the midi file on a near continuous time scale (See figure 1). Specifically, it returns an array of size 128\*S where the size of S equals the length of the song (i.e the time of the last note played) multiplied by how many times each second a sample is taken, denoted by the parameter fs. E.g, for fs=10 every 1/10ths of a second a sample will be made, meaning 10 samples per second so for a song of 120 seconds we will have 1200 samples. Thus getPianoRoll(fs=10) will return a matrix of size 128x1200. By this method, we can control the granularity of the data with ease.
 
------- pic 7 -------
+
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/7.PNG?raw=true)
+
 Figure 2: Piano roll matrix. The value in each cell is the velocity summed across instruments.
 
 The reason for the 128 is that musical pitch has a possible range of 0 to 127. So each column in this matrix represents the notes played during this sample (in our example, the notes played every 100 milliseconds).
 
 After creating this matrix, we can calculate how many notes are played, on average, per word. For example, if there are 2000 columns and a song has 50 words, it means that each word in the lyrics can be connected to about 40 notes. This is not precise of course, but a useful approximation.
 
------- pic 8 -------
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/8.PNG?raw=true)
 
 Figure 3: Notes played during a specific word in a song. Here each lyric received 40 notes representing it (columns 10-39 not shown). There are still 128 rows for each possible note.
 
 We then iterate over every word in the song’s lyrics and find the notes that were played during that particular lyric. For example, in Figure 3 we can see that for a certain word, notes number 57, 64 and 69 were played. 
 
------- pic 9 -------
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/9.PNG?raw=true)
 Figure 4: The sum of the notes played during a specific word.
 
 Finally, for each lyric-specific matrix, we sum each row to easily see what notes were played and how much. In figure 4, we can see the result of summing the matrix presented in figure 3. This is fed together with the array of word embeddings of each word in the sequence, thus attaching melody features to word features.
@@ -134,7 +140,7 @@ Additionally, we tried feeding the network various sequence lengths: 1, 5 and 10
 
 In addition to the piano roll matrix we keep the features extracted in method 1.
 
------- pic 10 -------
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/10.PNG?raw=true)
 
 
 - Layers 3 & 4 are only for the model that uses the melody features.
@@ -146,7 +152,8 @@ In addition to the piano roll matrix we keep the features extracted in method 1.
 
 Tensorboard Graph:
 
------- pic 11 -------
+
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/11.PNG?raw=true)
 
 **Stopping criteria:**
 Here we also experimented with several parameters: We used the EarlyStopping function monitoring on the validation loss with a minimum delta of 0.1 (Minimum change in the monitored quantity to qualify as an improvement, i.e. an absolute change of less than min_delta, will count as no improvement.) and patience of 0 (Number of epochs with no improvement after which training will be stopped). We experimented with several values and found the most success with these.
@@ -175,7 +182,8 @@ Note: In the final section where we predict song lyrics, we tried with different
 Example with Sequence Length of 3:
 Seed 1, seed 2 and seed 3 -
 
------- pic 12 -------
+
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/12.PNG?raw=true)
 
 ## Full Experimental Setup:
 Validation Set: Empirically, we learned that using a validation set is better than not if there isn’t enough data. We used the fairly standard 80/20 ratio between training and validation which worked well.
@@ -191,7 +199,7 @@ Additionally, we tried feeding the network various sequence lengths of 1 and 5 t
 **Experimental Results:**
 The best results are in bold -
 
------- pic 13 -------
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/13.PNG?raw=true)
 
 **Analysis**: unlike our expectations, the model with simpler features worked better in almost all cases, perhaps due to Occam’s Razor. We theorize that the features about the instruments provided a good abstraction of the features of the entire piano roll. 
 However, it is clear that adding some melody features to the model improved it on all parameters (except subjectivity). Additionally, having a sequence length of 5 has mixed results and doesn’t seem to have much of an impact on the evaluation methods we chose. We will look into this manually in the next section.
@@ -203,7 +211,8 @@ For Brevity’s sake we’ll only show both models with a sequence of 1 and the 
 
 **Model with simple melody features - sequence length 1**
 A screenshot from the TensorBoard framework: 
------- pic 14 -------
+
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/14.PNG?raw=true)
 
 1. **Lyrics for the bangles - eternal flame**
 
@@ -259,7 +268,8 @@ A screenshot from the TensorBoard framework:
 
 **Model with advanced melody features - sequence length 5**
 A screenshot from the TensorBoard framework: 
-——— pic 15 ———-
+
+![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/15.PNG?raw=true)
 
 1. **Lyrics for the bangles - eternal flame**
 
