@@ -3,6 +3,22 @@ Enabling students to experiment with building a recurrent neural net and using i
 In addition to practical knowledge in the “how to” of building the network,  
 an additional goal is introducing the students to the challenge of integrating different sources of information into a single framework.
 
+## Table of Contents  
+  * [Authors](#authors)
+  * [Introduction](#introduction)
+  * [Instructions](#instructions)
+  * [Dataset Analysis](#dataset-analysis)
+  * [Code Design](#code-design)
+  * [Melody Feature Integration](#melody-feature-integration)
+  * [Architecture](#architecture)
+  * [Results Evaluation](#results-evaluation)
+  * [Full Experimental Setup](#full-experimental-setup)
+  * [Analysis of how the Seed and Melody Effects the Generated Lyrics](#analysis-of-how-the-seed-and-melody-effects-the-generated-lyrics)
+  
+## Authors
+* **Tomer Shahar** - [Tomer Shahar](https://github.com/Tomer-Shahar)
+* **Nevo Itzhak** - [Nevo Itzhak](https://github.com/nevoit)
+
 ## Introduction
 In this assignment, we were tasked with creating a Recurrent Neural Network that can learn song lyrics and their melodies and then given a melody and a few words to start with, predict the rest of the song. This is essentially done by generating new words for the song and attempting to be as “close” as possible to the original lyrics. However, this is quite subjective leading the evaluation of generated words to use imaginative methods. For the training phase, however, we used Crossed Entropy loss.
 The melody files and lyrics for each song were given to us and the train / test sets were predefined. 20% of the training data was used as a validation set in order to track our progress between training iterations.
@@ -41,7 +57,7 @@ Figures 2-4 demonstrate the types of information that can be gathered.
 	*	For each melody, repeat the process described above three times, with different words (the same words should be used for all melodies).
 	*	Attempt to analyze the effect of the selection of the first word and/or melody on the generated lyrics.
 
-## Dataset Analysis:
+## Dataset Analysis
 - 600 song lyrics for the training
 -  5 songs for the test set.
 - Midi files for each song containing just the song's melody.
@@ -131,7 +147,7 @@ Figure 4: The sum of the notes played during a specific word.
 
 Finally, for each lyric-specific matrix, we sum each row to easily see what notes were played and how much. In figure 4, we can see the result of summing the matrix presented in figure 3. This is fed together with the array of word embeddings of each word in the sequence, thus attaching melody features to word features.
 
-## Architecture:
+## Architecture
 We used a fairly standard approach to a bidirectional LSTM network, with the addition of allowing it to receive as input both an embedding vector and the melody features. We also created an LSTM network that doesn’t receive melodies just to study the impact of melody on the results.
 
 Number of layers: Both versions receive as input a sequence of lyrics. Then there is an embedding layer after the input that uses the word2vec dictionary to convert each word to the appropriate vector representing it. The difference between the networks is that the one using the melodies has a concatenating layer that appends the vectors of lyrics to the vector of melodies.
@@ -185,7 +201,7 @@ Seed 1, seed 2 and seed 3 -
 
 ![](https://github.com/nevoit/Lyric-Generation-Recurrent-Neural-Network/blob/master/figures/12.PNG?raw=true)
 
-## Full Experimental Setup:
+## Full Experimental Setup
 Validation Set: Empirically, we learned that using a validation set is better than not if there isn’t enough data. We used the fairly standard 80/20 ratio between training and validation which worked well.
 
 - Batch sizes - 32
