@@ -1,7 +1,5 @@
-# The purpose of the assignment
-Enabling students to experiment with building a recurrent neural net and using it on a real-world dataset.  
-In addition to practical knowledge in the “how to” of building the network,  
-an additional goal is introducing the students to the challenge of integrating different sources of information into a single framework.
+# The purpose
+A Recurrent Neural Network that can learn song lyrics and their melodies and then given a melody and a few words to start with, predict the rest of the song. This is essentially done by generating new words for the song and attempting to be as “close” as possible to the original lyrics. However, this is entirely subjective leading the evaluation of generated words to use imaginative methods. For the training phase, however, we used Crossed Entropy loss.
 
 ## Table of Contents  
   * [Authors](#authors)
