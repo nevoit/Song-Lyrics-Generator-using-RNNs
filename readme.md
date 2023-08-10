@@ -14,8 +14,7 @@ A Recurrent Neural Network that can learn song lyrics and their melodies and the
   * [Analysis of how the Seed and Melody Effects the Generated Lyrics](#analysis-of-how-the-seed-and-melody-effects-the-generated-lyrics)
   
 ## Authors
-* **Tomer Shahar** - [Tomer Shahar](https://github.com/Tomer-Shahar)
-* **Nevo Itzhak** - [Nevo Itzhak](https://github.com/nevoit)
+[Tomer Shahar](https://github.com/Tomer-Shahar) and [Nevo Itzhak](https://www.linkedin.com/in/nevoitzhak/)
 
 ## Introduction
 In this assignment, we were tasked with creating a Recurrent Neural Network that can learn song lyrics and their melodies and then given a melody and a few words to start with, predict the rest of the song. This is essentially done by generating new words for the song and attempting to be as “close” as possible to the original lyrics. However, this is quite subjective leading the evaluation of generated words to use imaginative methods. For the training phase, however, we used Crossed Entropy loss.
